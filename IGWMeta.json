@@ -1,0 +1,34 @@
+{
+    "Resources": {
+        "IGW": {
+            "Type": "AWS::EC2::InternetGateway",
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "56724be8-a748-497b-b3d7-f526daece043"
+                    "AWS::CloudFormation::Init" : {
+                      "configSets" : {
+                        "All" : [ "ConfigureSampleApp" ]
+                      },
+                      "ConfigureSampleApp" : {
+                        "packages" : {
+                          "yum" : {
+                            "httpd" : []
+                          }
+                        },
+                        "files" : {
+                          "/var/www/html/index.html" : {
+                            "content" : { "Fn::Join" : ["\n", [
+                              "<h1>Congratulations, you have successfully launched the AWS CloudFormation sample.</h1>"
+                              ]]},
+                              "mode" : "000644",
+                              "owner" : "root",
+                              "group" : "root"
+                            }
+                          },
+                          "services" : {
+                            "sysvinit" : {
+                              "httpd" : { "enabled" : "true", "ensureRunning" : "true" }
+                            }
+                          }
+                      }
+}
